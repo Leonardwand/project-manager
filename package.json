@@ -6,9 +6,9 @@
   "author": "Your Name",
   "license": "MIT",
   "scripts": {
-    "dev": "bash ./scripts/dev.sh",
-    "build": "bash ./scripts/build.sh",
-    "start": "bash ./scripts/start.sh",
+    "dev": "vite --port 5000 --host",
+    "build": "vite build",
+    "start": "vite preview --port 5000 --host",
     "electron:dev": "concurrently \"pnpm dev\" \"wait-on http://localhost:5000 && electron .\"",
     "electron:build": "pnpm build && electron-builder",
     "electron:start": "electron .",
