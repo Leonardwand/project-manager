@@ -10,9 +10,11 @@ interface SupabaseConfig {
 function getSupabaseConfig(): SupabaseConfig {
   // 在Vite中，使用import.meta.env访问环境变量
   const url = import.meta.env.VITE_SUPABASE_URL || 
-              import.meta.env.COZE_SUPABASE_URL || '';
+              import.meta.env.COZE_SUPABASE_URL || 
+              'https://eenlreciknhwpgbwyegz.supabase.co';
   const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 
-                  import.meta.env.COZE_SUPABASE_ANON_KEY || '';
+                  import.meta.env.COZE_SUPABASE_ANON_KEY || 
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVlbmxyZWNpa25od3BnYnd5ZWd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzOTM5NDUsImV4cCI6MjA4Nzk2OTk0NX0.Ezpc06Jzoc5pEfAI8mH4C40ulx9HM1BRwwnYM_D3BK0';
 
   if (!url || !anonKey) {
     console.warn('Supabase配置缺失，云端功能将不可用');
