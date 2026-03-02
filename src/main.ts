@@ -2449,10 +2449,10 @@ export function initApp(): void {
       
       // ========== 第一步：获取云端和本地数据 ==========
       let [cloudProjects, cloudTodos, cloudCompleted, cloudDeleted] = await Promise.all([
-        dataService.projects.getProjects(userId).catch(() => [] as any[]),
-        dataService.todos.getTodos(userId).catch(() => [] as any[]),
-        dataService.completedTodos.getCompletedTodos(userId).catch(() => [] as any[]),
-        dataService.deletedTodos.getDeletedTodos(userId).catch(() => [] as any[]),
+        dataService.projects.getProjects(userId).catch((e) => { console.error('获取云端项目失败:', e); return [] as any[]; }),
+        dataService.todos.getTodos(userId).catch((e) => { console.error('获取云端任务失败:', e); return [] as any[]; }),
+        dataService.completedTodos.getCompletedTodos(userId).catch((e) => { console.error('获取云端已完成任务失败:', e); return [] as any[]; }),
+        dataService.deletedTodos.getDeletedTodos(userId).catch((e) => { console.error('获取云端删除记录失败:', e); return [] as any[]; }),
       ]);
       
       const localProjects: Project[] = JSON.parse(localStorage.getItem('todo_projects') || '[]');
@@ -2464,6 +2464,14 @@ export function initApp(): void {
         云端: { projects: cloudProjects.length, todos: cloudTodos.length, completed: cloudCompleted.length, deleted: cloudDeleted.length },
         本地: { projects: localProjects.length, todos: localTodos.length, completed: localCompleted.length, deleted: localDeleted.length }
       });
+      
+      // 安全检查：如果云端数据全部为空，且本地有数据，则不同步（可能是网络问题）
+      const cloudAllEmpty = cloudProjects.length === 0 && cloudTodos.length === 0 && cloudCompleted.length === 0;
+      const localHasData = localProjects.length > 0 || localTodos.length > 0 || localCompleted.length > 0;
+      if (cloudAllEmpty && localHasData) {
+        console.log('⚠️ 云端数据为空，本地有数据，跳过同步以保护本地数据');
+        return;
+      }
       
       // ========== 第二步：构建已删除任务集合（墓碑机制） ==========
       // 合并云端和本地的已删除记录，任何在此集合中的任务都应被删除
