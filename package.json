@@ -1,0 +1,45 @@
+{
+  "name": "project-manager",
+  "version": "1.0.0",
+  "description": "项目管理器 - 桌面端任务管理应用",
+  "main": "electron/main.js",
+  "author": "Your Name",
+  "license": "MIT",
+  "scripts": {
+    "dev": "bash ./scripts/dev.sh",
+    "build": "bash ./scripts/build.sh",
+    "start": "bash ./scripts/start.sh",
+    "electron:dev": "concurrently \"pnpm dev\" \"wait-on http://localhost:5000 && electron .\"",
+    "electron:build": "pnpm build && electron-builder",
+    "electron:start": "electron .",
+    "ts-check": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.95.3",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "coze-coding-dev-sdk": "^0.7.16",
+    "concurrently": "^9.1.2",
+    "electron": "^36.4.0",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9",
+    "only-allow": "^1.2.2",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8",
+    "vite": "^7.2.4",
+    "wait-on": "^8.0.3"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "^0.27.2"
+    }
+  }
+}

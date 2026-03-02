@@ -1,0 +1,23 @@
+appId: com.projectmanager.app
+productName: 项目管理器
+directories:
+  output: release
+files:
+  - dist/**/*
+  - electron/**/*
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: 项目管理器
+portable:
+  artifactName: 项目管理器-便携版.exe
