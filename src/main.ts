@@ -3833,11 +3833,12 @@ export function initApp(): void {
         }
       } catch (err) {
         console.error('云端删除项目失败:', err);
-        alert('云端删除失败: ' + (err as Error).message);
-        return; // 删除失败则不继续
+        // 云端删除失败，但仍继续本地删除（离线模式）
+        alert('云端同步失败，已从本地删除: ' + (err as Error).message);
       }
     }
     
+    // 无论如何都执行本地删除
     todoApp.deleteProject(id);
     updateProjectList();
   }
@@ -3867,8 +3868,8 @@ export function initApp(): void {
         
       } catch (err) {
         console.error('云端删除任务失败:', err);
-        alert('云端删除失败: ' + (err as Error).message);
-        return; // 删除失败则不继续
+        // 云端删除失败，但仍继续本地删除
+        alert('云端同步失败，已从本地删除: ' + (err as Error).message);
       }
     }
     
@@ -3913,8 +3914,7 @@ export function initApp(): void {
         
       } catch (err) {
         console.error('云端删除任务失败:', err);
-        alert('云端删除失败: ' + (err as Error).message);
-        return; // 删除失败则不继续
+        alert('云端同步失败，已从本地删除: ' + (err as Error).message);
       }
     }
     
@@ -3974,8 +3974,7 @@ export function initApp(): void {
         
       } catch (err) {
         console.error('云端彻底删除任务失败:', err);
-        alert('云端删除失败: ' + (err as Error).message);
-        return; // 删除失败则不继续
+        alert('云端同步失败，已从本地删除: ' + (err as Error).message);
       }
     }
     
