@@ -4020,12 +4020,11 @@ export function initApp(): void {
         
       } catch (err) {
         console.error('云端恢复任务失败:', err);
-        alert('云端恢复失败: ' + (err as Error).message);
-        return; // 恢复失败则不继续
+        alert('云端同步失败，已从本地恢复: ' + (err as Error).message);
       }
     }
     
-    // 本地恢复
+    // 本地恢复（无论如何都执行）
     todoApp.restoreTodo(todoId);
   }
 
