@@ -241,8 +241,22 @@ export async function getDeletedTodos(userId: string): Promise<DeletedTodo[]> {
   return data || [];
 }
 
-export async function createDeletedTodo(userId: string, todo: { unique_id: string } & Partial<Omit<DeletedTodo, 'id' | 'user_id' | 'created_at' | 'deleted_at'>>): Promise<DeletedTodo> {
+export async function createDeletedTodo(userId: string, todo: { unique_id: string } & Partial<Omit<DeletedTodo, 'id' | 'user_id' | 'created_at' | 'deleted_at'>>): Promise<DeletedTodo | null> {
   const client = getSupabaseClient();
+  
+  // 先检查是否已存在该 unique_id 的记录
+  const { data: existing } = await client
+    .from('deleted_todos')
+    .select('id')
+    .eq('unique_id', todo.unique_id)
+    .eq('user_id', userId)
+    .maybeSingle();
+  
+  if (existing) {
+    console.log('墓碑记录已存在，跳过创建:', todo.unique_id);
+    return null;
+  }
+  
   const now = new Date().toISOString();
   const { data, error } = await client
     .from('deleted_todos')
